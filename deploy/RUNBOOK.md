@@ -194,7 +194,45 @@ WEBHOOK_SECRET=$(openssl rand -hex 32) docker compose up --build
 
 ---
 
-## 8. Teardown
+## 9. Deploy from your phone (Cloud Shell)
+
+You don't need a laptop. The **Google Cloud app** now includes a built-in Cloud
+Shell (and Gemini Cloud Assist can open it to run `gcloud` for you); you can also
+open `shell.cloud.google.com` in mobile Chrome/Safari. Cloud Shell is
+auto-authenticated as you and ships with `gcloud`, `git`, and `docker`.
+
+1. Open **Cloud Shell** (Google Cloud app → Cloud Shell, or the URL above).
+2. Run:
+   ```bash
+   git clone https://github.com/TheHaymaker/chat-backed-by-gcp-adk
+   cd chat-backed-by-gcp-adk && git checkout claude/new-session-5ozuhr
+   export PROJECT=MY_PROJECT REGION=us-central1 ORIGINS=https://www.acme.com
+   ./deploy/bootstrap.sh
+   # live services + analytics instead:
+   # LIVE_SERVICES=1 ENABLE_BQ_ANALYTICS=1 ./deploy/bootstrap.sh
+   ```
+   Set the three vars once with `export` so you're not retyping them — that's the
+   only real friction on a phone keyboard.
+3. The image builds run **server-side in Cloud Build** (`gcloud builds submit`),
+   so your phone needs no horsepower and the ephemeral Cloud Shell VM is fine.
+
+**Monitor + roll back from the app UI.** Use the Google Cloud app's tap-around
+UI (which can't run the multi-service deploy itself) to watch Cloud Run service
+status, Cloud Build history, and logs, and to roll back to a previous revision.
+
+**Verify from the same Cloud Shell:**
+```bash
+GATEWAY_URL=$(gcloud run services describe webchat-gateway --region "$REGION" \
+  --format 'value(status.url)')
+curl -s -X POST "$GATEWAY_URL/v1/session" \
+  -H "Origin: $ORIGINS" -H 'Content-Type: application/json' -d '{"tenant":"acme"}'
+```
+Then open `widget/demo.html?endpoint=$GATEWAY_URL` in your phone browser (serve
+`widget/` from any static host / CDN) and try *"book a demo"*.
+
+---
+
+## 10. Teardown
 
 ```bash
 PROJECT=MY_PROJECT REGION=us-central1
