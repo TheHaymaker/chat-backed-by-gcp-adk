@@ -1,0 +1,108 @@
+{
+  "eval_set_id": "webchat_grounding",
+  "name": "web-chat-agent grounding evals",
+  "eval_cases": [
+    {
+      "eval_id": "ground_no_corpus_match",
+      "conversation": [
+        {
+          "invocation_id": "ground_no_corpus_match-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "how does medieval falconry work?"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "ground_citations_present",
+      "conversation": [
+        {
+          "invocation_id": "ground_citations_present-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "what are the API rate limits?"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "docs-kb.retrieve",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "ground_faq_below_floor_falls_through",
+      "conversation": [
+        {
+          "invocation_id": "ground_faq_below_floor_falls_through-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "does the API support quantum entanglement pairing?"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    }
+  ],
+  "creation_timestamp": 1783055330.3927188
+}

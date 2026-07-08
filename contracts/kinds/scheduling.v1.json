@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.com/kinds/scheduling/v1",
+  "title": "SchedulingKindContract",
+  "description": "Canonical tool set for kind: scheduling. Mock and live adapters must both satisfy these. Capabilities marked write:true require a client interaction_token.",
+  "capabilities": {
+    "list_services": {
+      "write": false,
+      "input": { "type": "object", "additionalProperties": false, "properties": {} },
+      "output": {
+        "type": "object", "required": ["services"],
+        "properties": { "services": { "type": "array", "items": {
+          "type": "object", "required": ["name", "duration_minutes"],
+          "properties": { "name": {"type": "string"}, "duration_minutes": {"type": "integer"} } } } }
+      }
+    },
+    "get_availability": {
+      "write": false,
+      "input": {
+        "type": "object", "required": ["date"], "additionalProperties": false,
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "duration_minutes": { "type": "integer", "minimum": 5, "maximum": 240 }
+        }
+      },
+      "output": {
+        "type": "object", "required": ["slots", "timezone"],
+        "properties": {
+          "timezone": { "type": "string" },
+          "slots": { "type": "array", "items": {
+            "type": "object", "required": ["slot_id", "start", "end"],
+            "properties": {
+              "slot_id": {"type": "string"}, "start": {"type": "string"}, "end": {"type": "string"} } } }
+        }
+      }
+    },
+    "hold_slot": {
+      "write": true,
+      "input": {
+        "type": "object", "required": ["slot_id", "interaction_token"], "additionalProperties": false,
+        "properties": { "slot_id": {"type": "string"}, "interaction_token": {"type": "string"} }
+      },
+      "output": {
+        "type": "object", "required": ["hold_id", "expires_at"],
+        "properties": { "hold_id": {"type": "string"}, "expires_at": {"type": "string"} }
+      }
+    },
+    "confirm_booking": {
+      "write": true,
+      "input": {
+        "type": "object", "required": ["hold_id", "interaction_token"], "additionalProperties": false,
+        "properties": {
+          "hold_id": {"type": "string"},
+          "interaction_token": {"type": "string"},
+          "contact": { "type": "object", "properties": {
+            "name": {"type": "string"}, "email": {"type": "string", "format": "email"} } }
+        }
+      },
+      "output": {
+        "type": "object", "required": ["booking_ref", "start", "end"],
+        "properties": { "booking_ref": {"type": "string"}, "start": {"type": "string"}, "end": {"type": "string"} }
+      }
+    },
+    "cancel_booking": {
+      "write": true,
+      "input": {
+        "type": "object", "required": ["booking_ref", "interaction_token"], "additionalProperties": false,
+        "properties": { "booking_ref": {"type": "string"}, "interaction_token": {"type": "string"} }
+      },
+      "output": {
+        "type": "object", "required": ["cancelled"],
+        "properties": { "cancelled": {"type": "boolean"} }
+      }
+    }
+  }
+}

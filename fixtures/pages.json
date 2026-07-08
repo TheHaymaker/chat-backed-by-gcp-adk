@@ -1,0 +1,12 @@
+{
+  "pages": [
+    {"title": "Pricing", "url": "https://acme.example/pricing",
+     "snippet": "Plans for teams of every size. Compare Free, Pro, and Enterprise pricing."},
+    {"title": "Careers", "url": "https://acme.example/careers",
+     "snippet": "Open roles in engineering, design, and sales. Join the Acme team."},
+    {"title": "Security overview", "url": "https://acme.example/security",
+     "snippet": "SOC 2 Type II, encryption at rest and in transit, SSO and SCIM."},
+    {"title": "Contact sales", "url": "https://acme.example/contact",
+     "snippet": "Talk to our sales team about Enterprise plans and volume discounts."}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "faqs": [
+    {"question": "How much does the Pro plan cost?",
+     "answer_markdown": "The **Pro plan** is $49/month per seat, billed annually, or $59 month-to-month.",
+     "tags": ["pricing", "cost", "plan", "price"],
+     "url": "https://acme.example/pricing"},
+    {"question": "What is your refund policy?",
+     "answer_markdown": "Full refunds within **30 days** of purchase, no questions asked. Email billing@acme.example.",
+     "tags": ["refund", "billing", "money back"],
+     "url": "https://acme.example/refunds"},
+    {"question": "How do I reset my password?",
+     "answer_markdown": "Use **Forgot password** on the sign-in page. Reset links expire after 1 hour.",
+     "tags": ["password", "reset", "login", "account"],
+     "url": "https://acme.example/help/password"}
+  ]
+}

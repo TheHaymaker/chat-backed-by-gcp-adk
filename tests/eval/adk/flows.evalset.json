@@ -1,0 +1,199 @@
+{
+  "eval_set_id": "webchat_flows",
+  "name": "web-chat-agent flows evals",
+  "eval_cases": [
+    {
+      "eval_id": "flow_book",
+      "conversation": [
+        {
+          "invocation_id": "flow_book-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "book a demo"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "sales-scheduler.get_availability",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "flow_book_reschedule",
+      "conversation": [
+        {
+          "invocation_id": "flow_book_reschedule-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "book a demo"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "sales-scheduler.get_availability",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "invocation_id": "flow_book_reschedule-1",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "reschedule my demo"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "sales-scheduler.get_availability",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "flow_book_cancel",
+      "conversation": [
+        {
+          "invocation_id": "flow_book_cancel-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "book a demo"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "sales-scheduler.get_availability",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        },
+        {
+          "invocation_id": "flow_book_cancel-1",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "cancel my booking"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "flow_lead_capture",
+      "conversation": [
+        {
+          "invocation_id": "flow_lead_capture-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "contact support please"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    }
+  ],
+  "creation_timestamp": 1783055330.39224
+}

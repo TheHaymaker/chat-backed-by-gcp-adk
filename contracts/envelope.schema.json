@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.com/envelope/v1",
+  "title": "AgentTurnEnvelope",
+  "type": "object",
+  "required": ["message", "ui_blocks", "events"],
+  "additionalProperties": false,
+  "properties": {
+    "message": { "type": "string", "description": "Assistant text, sanitized markdown. Always present, may be empty only if ui_blocks non-empty." },
+    "ui_blocks": {
+      "type": "array",
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/uiBlock" }
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/event" }
+    }
+  },
+  "$defs": {
+    "uiBlock": {
+      "type": "object",
+      "required": ["type", "id", "props"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$" },
+        "id": { "type": "string", "pattern": "^blk_[A-Za-z0-9_-]{1,32}$" },
+        "props": { "type": "object" }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,48}$" },
+        "props": { "type": "object" }
+      }
+    }
+  }
+}

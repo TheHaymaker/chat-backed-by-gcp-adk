@@ -1,0 +1,50 @@
+# Multi-turn interactive flows through the real token path.
+- id: flow_book
+  turns:
+    - user: "book a demo"
+      expect: { block_types: [scheduler] }
+    - interact: { action: slot_selected, from_block: scheduler, payload_from: first_slot }
+      expect:
+        block_types: [confirmation]
+        events_include: [booking_completed]
+
+- id: flow_book_reschedule
+  turns:
+    - user: "book a demo"
+      expect: { block_types: [scheduler] }
+    - interact: { action: slot_selected, from_block: scheduler, payload_from: first_slot }
+      expect: { block_types: [confirmation] }
+    - user: "reschedule my demo"
+      expect: { block_types: [scheduler] }
+    - interact: { action: slot_selected, from_block: scheduler, payload_from: second_slot }
+      expect:
+        block_types: [confirmation]
+        events_include: [booking_rescheduled]
+        message_contains: "Rescheduled"
+
+- id: flow_book_cancel
+  turns:
+    - user: "book a demo"
+      expect: { block_types: [scheduler] }
+    - interact: { action: slot_selected, from_block: scheduler, payload_from: first_slot }
+      expect: { block_types: [confirmation] }
+    - user: "cancel my booking"
+      expect: { block_types: [quick_replies] }
+    - interact: { action: cancel_booking, from_block: quick_replies, payload_from: option_0 }
+      expect:
+        events_include: [booking_cancelled]
+        message_contains: "cancelled"
+
+- id: flow_lead_capture
+  turns:
+    - user: "contact support please"
+      expect: { block_types: [form, handoff] }
+    - interact:
+        action: form_submitted
+        from_block: form
+        payload:
+          form_id: lead_capture
+          values: { name: "Eval Bot", email: "eval@acme.example", message: "hi" }
+      expect:
+        events_include: [lead_captured]
+        message_contains: "reach out"

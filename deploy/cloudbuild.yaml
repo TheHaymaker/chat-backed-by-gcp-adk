@@ -1,0 +1,36 @@
+# CI: both gates (unit + structural evals) must pass before any image builds.
+steps:
+  - id: deps
+    name: python:3.12-slim
+    entrypoint: bash
+    args: ["-c", "pip install -r gateway/requirements.txt pytest && pip freeze > /workspace/.deps"]
+  - id: unit-tests
+    name: python:3.12-slim
+    entrypoint: bash
+    args: ["-c", "pip install -r gateway/requirements.txt pytest && python -m pytest tests/ -q"]
+  - id: structural-evals            # hard gate: 100% required
+    name: python:3.12-slim
+    entrypoint: bash
+    args: ["-c", "pip install -r gateway/requirements.txt && python tools/run_evals.py"]
+  - id: validate-manifest
+    name: python:3.12-slim
+    entrypoint: bash
+    args: ["-c", "pip install -r gateway/requirements.txt && python tools/validate_manifest.py services.yaml && WEBHOOK_BASE_URL=https://example.invalid python tools/validate_manifest.py services.live.yaml"]
+  - id: build-gateway
+    name: gcr.io/cloud-builders/docker
+    args: ["build", "-f", "Dockerfile.gateway",
+           "-t", "${_REGION}-docker.pkg.dev/$PROJECT_ID/webchat/gateway:$SHORT_SHA", "."]
+  - id: build-agent
+    name: gcr.io/cloud-builders/docker
+    args: ["build", "-f", "Dockerfile.agent",
+           "-t", "${_REGION}-docker.pkg.dev/$PROJECT_ID/webchat/agent:$SHORT_SHA", "."]
+  - id: build-placeholders
+    name: gcr.io/cloud-builders/docker
+    args: ["build", "-f", "Dockerfile.placeholders",
+           "-t", "${_REGION}-docker.pkg.dev/$PROJECT_ID/webchat/placeholders:$SHORT_SHA", "."]
+images:
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/webchat/gateway:$SHORT_SHA"
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/webchat/agent:$SHORT_SHA"
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/webchat/placeholders:$SHORT_SHA"
+substitutions:
+  _REGION: us-central1

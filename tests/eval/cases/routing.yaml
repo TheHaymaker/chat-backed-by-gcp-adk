@@ -1,0 +1,40 @@
+# Block-routing evals: the right UI block for each intent class.
+- id: route_faq_refund
+  turns:
+    - user: "what is your refund policy?"
+      expect:
+        block_types: [faq_card]
+        message_contains: ""
+
+- id: route_faq_pricing
+  turns:
+    - user: "how much does the pro plan cost"
+      expect:
+        block_types: [faq_card]
+
+- id: route_kb_webhooks
+  turns:
+    - user: "explain how webhook signature verification works"
+      expect:
+        block_types: [kb_answer]
+        kb_citations_min: 1
+
+- id: route_search_navigational
+  turns:
+    - user: "find the pricing page"
+      expect:
+        block_types: [search_results]
+
+- id: route_scheduler
+  turns:
+    - user: "I'd like to book a demo"
+      expect:
+        block_types: [scheduler]
+        events_include: [scheduler_offered]
+
+- id: route_contact_multiblock
+  turns:
+    - user: "I want to talk to a human"
+      expect:
+        block_types: [form, handoff]
+        events_include: [handoff_requested]

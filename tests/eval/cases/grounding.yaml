@@ -1,0 +1,21 @@
+# Grounding rule: cited answers or an honest "I don't know" — never fabrication.
+- id: ground_no_corpus_match
+  turns:
+    - user: "how does medieval falconry work?"
+      expect:
+        not_block_types: [kb_answer]
+        message_contains: "couldn't find"
+        events_include: [kb_no_answer]
+
+- id: ground_citations_present
+  turns:
+    - user: "what are the API rate limits?"
+      expect:
+        block_types: [kb_answer]
+        kb_citations_min: 1
+
+- id: ground_faq_below_floor_falls_through
+  turns:
+    - user: "does the API support quantum entanglement pairing?"
+      expect:
+        not_block_types: [faq_card, kb_answer]

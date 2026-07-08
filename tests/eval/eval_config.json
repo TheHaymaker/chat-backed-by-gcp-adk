@@ -1,0 +1,7 @@
+{
+  "criteria": {
+    "tool_trajectory_avg_score": 0.8,
+    "response_match_score": 0.5
+  },
+  "notes": "Used by `agents-cli eval` / `adk eval` against the real agent. Structural invariants (envelope schema, interaction-token safety, grounding) are gated by tools/run_evals.py and must pass at 100%."
+}

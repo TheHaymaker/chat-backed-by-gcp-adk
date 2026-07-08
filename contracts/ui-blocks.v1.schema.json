@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.com/ui-blocks/v1",
+  "title": "UIBlockPropsV1",
+  "description": "Props schemas per block type. Gateway validates ui_blocks[].props against blocks[type]. Unknown types are dropped server-side; widgets degrade unknown types to text.",
+  "blocks": {
+    "text": {
+      "type": "object",
+      "required": ["markdown"],
+      "additionalProperties": false,
+      "properties": { "markdown": { "type": "string", "maxLength": 8000 } }
+    },
+    "quick_replies": {
+      "type": "object",
+      "required": ["options"],
+      "additionalProperties": false,
+      "properties": {
+        "options": {
+          "type": "array", "minItems": 1, "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string", "maxLength": 40 },
+              "value": { "type": "string", "maxLength": 200 },
+              "action": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$",
+                          "description": "If set, tap routes via /v1/interact (token path) instead of sending value as a message" },
+              "payload": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "required": ["form_id", "fields"],
+      "additionalProperties": false,
+      "properties": {
+        "form_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$" },
+        "title": { "type": "string", "maxLength": 80 },
+        "submit_label": { "type": "string", "maxLength": 30 },
+        "fields": {
+          "type": "array", "minItems": 1, "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": ["name", "label", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,30}$" },
+              "label": { "type": "string", "maxLength": 60 },
+              "type": { "type": "string", "enum": ["text", "email", "tel", "textarea"] },
+              "required": { "type": "boolean" },
+              "placeholder": { "type": "string", "maxLength": 60 }
+            }
+          }
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["channels"],
+      "additionalProperties": false,
+      "properties": {
+        "reason": { "type": "string", "maxLength": 200 },
+        "channels": {
+          "type": "array", "minItems": 1, "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["kind", "label", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "kind": { "type": "string", "enum": ["email", "phone", "url"] },
+              "label": { "type": "string", "maxLength": 40 },
+              "value": { "type": "string", "maxLength": 300 }
+            }
+          }
+        }
+      }
+    },
+    "faq_card": {
+      "type": "object",
+      "required": ["question", "answer_markdown"],
+      "additionalProperties": false,
+      "properties": {
+        "question": { "type": "string", "maxLength": 200 },
+        "answer_markdown": { "type": "string", "maxLength": 4000 },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "scheduler": {
+      "type": "object",
+      "required": ["service_id", "slots"],
+      "additionalProperties": false,
+      "properties": {
+        "service_id": { "type": "string" },
+        "timezone": { "type": "string", "default": "UTC" },
+        "slots": {
+          "type": "array", "minItems": 1, "maxItems": 24,
+          "items": {
+            "type": "object",
+            "required": ["slot_id", "start", "end"],
+            "additionalProperties": false,
+            "properties": {
+              "slot_id": { "type": "string" },
+              "start": { "type": "string", "format": "date-time" },
+              "end": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      }
+    },
+    "confirmation": {
+      "type": "object",
+      "required": ["service_id", "booking_ref", "start"],
+      "additionalProperties": false,
+      "properties": {
+        "service_id": { "type": "string" },
+        "booking_ref": { "type": "string" },
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "summary": { "type": "string", "maxLength": 200 }
+      }
+    },
+    "kb_answer": {
+      "type": "object",
+      "required": ["markdown", "citations"],
+      "additionalProperties": false,
+      "properties": {
+        "markdown": { "type": "string", "maxLength": 8000 },
+        "citations": {
+          "type": "array", "minItems": 1, "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": ["title", "url"],
+            "additionalProperties": false,
+            "properties": {
+              "title": { "type": "string", "maxLength": 120 },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    },
+    "search_results": {
+      "type": "object",
+      "required": ["query", "results"],
+      "additionalProperties": false,
+      "properties": {
+        "query": { "type": "string", "maxLength": 200 },
+        "results": {
+          "type": "array", "minItems": 1, "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": ["title", "url"],
+            "additionalProperties": false,
+            "properties": {
+              "title": { "type": "string", "maxLength": 120 },
+              "snippet": { "type": "string", "maxLength": 300 },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
