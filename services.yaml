@@ -1,0 +1,80 @@
+version: 1
+tenant: acme
+
+services:
+  - id: sales-scheduler
+    kind: scheduling
+    mode: mock
+    description: >
+      Books product demo calls with the sales team. 30 or 60 minute slots,
+      business hours US-Eastern.
+    routing_hints: ["demo", "sales call", "talk to sales"]
+    capabilities: [list_services, get_availability, hold_slot, confirm_booking, cancel_booking]
+    ui_blocks: [scheduler, confirmation]
+
+  - id: support-calendar
+    kind: scheduling
+    mode: mock
+    description: Books support callbacks, 15-minute slots, 24/7.
+    routing_hints: ["support call", "callback"]
+    capabilities: [get_availability, hold_slot, confirm_booking]
+    ui_blocks: [scheduler, confirmation]
+
+  - id: order-lookup
+    kind: custom
+    mode: mock
+    description: Looks up order status and shipment tracking by order number or email.
+    tools:
+      - name: get_order_status
+        description: Look up an order's status by order number or email.
+        input_schema:
+          type: object
+          required: [order_ref]
+          properties:
+            order_ref: { type: string }
+        output_schema:
+          type: object
+          properties:
+            status: { type: string }
+            eta: { type: string }
+    ui_blocks: [text]
+    mock:
+      fixtures: fixtures/orders.json
+
+  - id: help-center
+    kind: faq
+    mode: mock
+    description: Curated FAQ for common product and billing questions.
+    routing_hints: ["pricing", "billing", "refunds", "account"]
+    capabilities: [lookup]
+    ui_blocks: [faq_card]
+    mock:
+      fixtures: fixtures/faqs.json
+
+  - id: docs-kb
+    kind: knowledge_base
+    mode: mock
+    description: Product documentation knowledge base. Answers must cite sources.
+    routing_hints: ["how does", "explain", "documentation"]
+    capabilities: [retrieve]
+    ui_blocks: [kb_answer]
+    mock:
+      fixtures: fixtures/kb-chunks.json
+
+  - id: site-search
+    kind: site_search
+    mode: mock
+    description: Searches the website for pages by topic.
+    routing_hints: ["find", "where is", "page", "link"]
+    capabilities: [search]
+    ui_blocks: [search_results]
+    mock:
+      fixtures: fixtures/pages.json
+
+  - id: sales-crm
+    kind: crm
+    mode: mock
+    description: Captures sales and support leads (name, email, message).
+    routing_hints: ["contact", "get in touch", "talk to sales", "callback request"]
+    capabilities: [capture_lead]
+    ui_blocks: [form, handoff]

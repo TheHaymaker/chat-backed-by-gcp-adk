@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acme Robotics — widget demo host page</title>
+  <style>
+    body{ margin:0; font-family: Georgia, serif; background:#FBF9F4; color:#26251F }
+    main{ max-width:640px; margin:0 auto; padding:64px 24px }
+    h1{ font-size:40px; margin:0 0 8px }
+    p{ line-height:1.6; color:#55524A }
+    /* Tenant theming: override the widget tokens from the host page */
+    agent-chat{ --agent-accent:#7A3E2E; --agent-radius:10px }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Acme Robotics</h1>
+    <p>This is a stand-in host website. The chat launcher in the corner is the
+       embedded widget, themed by this page via CSS custom properties.
+       Try: <em>"book a demo"</em>, then tap a time.</p>
+  </main>
+  <script>
+    // Host-page analytics wiring (before or after load, both work):
+    window.addEventListener('load', () => {
+      AgentWidget.on('*', e => console.log('[analytics]', e.name, e.props));
+      AgentWidget.use(AgentWidget.DataLayerAdapter());
+    });
+  </script>
+  <!-- Endpoint is configurable so the same page works against a local stack
+       (docker compose, :8000) or a deployed Cloud Run gateway:
+         demo.html                                 -> http://localhost:8000
+         demo.html?endpoint=https://<gateway-url>  -> deployed gateway -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const s = document.createElement('script');
+      s.src = 'agent-widget.js';
+      s.dataset.endpoint = params.get('endpoint') || 'http://localhost:8000';
+      s.dataset.tenant = params.get('tenant') || 'acme';
+      document.body.appendChild(s);   // widget falls back to querySelector([data-endpoint])
+    })();
+  </script>
+</body>
+</html>

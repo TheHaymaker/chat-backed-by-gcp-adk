@@ -1,0 +1,224 @@
+{
+  "eval_set_id": "webchat_routing",
+  "name": "web-chat-agent routing evals",
+  "eval_cases": [
+    {
+      "eval_id": "route_faq_refund",
+      "conversation": [
+        {
+          "invocation_id": "route_faq_refund-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "what is your refund policy?"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "help-center.lookup",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "route_faq_pricing",
+      "conversation": [
+        {
+          "invocation_id": "route_faq_pricing-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "how much does the pro plan cost"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "help-center.lookup",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "route_kb_webhooks",
+      "conversation": [
+        {
+          "invocation_id": "route_kb_webhooks-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "explain how webhook signature verification works"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "docs-kb.retrieve",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "route_search_navigational",
+      "conversation": [
+        {
+          "invocation_id": "route_search_navigational-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "find the pricing page"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "site-search.search",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "route_scheduler",
+      "conversation": [
+        {
+          "invocation_id": "route_scheduler-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "I'd like to book a demo"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "sales-scheduler.get_availability",
+                "args": {}
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "route_contact_multiblock",
+      "conversation": [
+        {
+          "invocation_id": "route_contact_multiblock-0",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "I want to talk to a human"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": []
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": ""
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "web-chat-agent",
+        "user_id": "eval",
+        "state": {}
+      }
+    }
+  ],
+  "creation_timestamp": 1783055330.3931198
+}

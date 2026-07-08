@@ -1,0 +1,7 @@
+{
+  "get_order_status": {
+    "A1001": { "status": "shipped", "eta": "2026-07-03", "items": ["Widget Pro"] },
+    "A1002": { "status": "processing", "eta": "2026-07-08", "items": ["Widget Mini"] },
+    "_default": { "status": "unknown", "eta": "", "items": [] }
+  }
+}

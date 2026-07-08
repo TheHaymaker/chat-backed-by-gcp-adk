@@ -1,0 +1,6 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+jsonschema>=4.22
+pydantic>=2.7
+pyyaml>=6.0
+httpx>=0.27          # live webhook/mcp/openapi transports (services in mode: live)

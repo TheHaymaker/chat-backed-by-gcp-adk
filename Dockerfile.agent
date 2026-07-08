@@ -1,0 +1,12 @@
+# ADK Agent (api_server target) — Cloud Run. Alternative: Agent Engine, see deploy/README.md
+FROM python:3.12-slim
+WORKDIR /app
+RUN pip install --no-cache-dir "google-adk[bigquery-analytics]" pydantic pyyaml httpx google-auth
+COPY contracts/ contracts/
+COPY agent/ agent/
+COPY fixtures/ fixtures/
+COPY services.yaml services.live.yaml ./
+ENV PORT=8080 SERVICES_CONFIG=/app/services.yaml MODEL=gemini-flash-latest
+# GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION, GOOGLE_GENAI_USE_VERTEXAI=1,
+# ENABLE_MODEL_ARMOR, ENABLE_BQ_ANALYTICS via Cloud Run env
+CMD exec adk api_server agent --host 0.0.0.0 --port ${PORT}

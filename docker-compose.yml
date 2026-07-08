@@ -1,0 +1,45 @@
+# Local end-to-end stack proving live-mode scheduling/CRM/custom tool calls:
+#
+#   widget (demo.html, :3000) -> gateway (:8000) -> [live webhook] -> placeholders (:8090)
+#
+# The gateway runs the MockAgentRunner (no Vertex/ADK needed for the demo), but
+# because SERVICES_CONFIG=services.live.yaml, its booking/CRM/order tool calls
+# go over the real webhook transport to the placeholder backend.
+#
+#   WEBHOOK_SECRET=$(openssl rand -hex 32) docker compose up --build
+#   # open http://localhost:3000/demo.html  ->  "book a demo"  ->  tap a slot
+services:
+  placeholders:
+    build:
+      context: .
+      dockerfile: Dockerfile.placeholders
+    environment:
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-dev-webhook-secret}
+      SERVICES_CONFIG: /app/services.yaml
+    ports:
+      - "8090:8080"          # exposed for debugging/smoke; not required by the gateway
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    depends_on:
+      - placeholders
+    environment:
+      SERVICES_CONFIG: /app/services.live.yaml
+      WEBHOOK_BASE_URL: http://placeholders:8080
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-dev-webhook-secret}
+      GATEWAY_SECRET: ${GATEWAY_SECRET:-dev-gateway-secret}
+      ALLOWED_ORIGINS: http://localhost:3000
+      AGENT_RUNNER: mock
+    ports:
+      - "8000:8080"
+
+  widget:
+    image: python:3.12-slim
+    working_dir: /widget
+    volumes:
+      - ./widget:/widget:ro
+    command: python -m http.server 3000
+    ports:
+      - "3000:3000"
